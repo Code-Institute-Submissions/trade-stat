@@ -7,6 +7,7 @@ function makeGraphs(error, tradeData) {
     var ndx = crossfilter(tradeData);
     
     show_trading_pairs(ndx);
+    show_buysell_amount(ndx);
     
     dc.renderAll();
     
@@ -20,15 +21,31 @@ function show_trading_pairs(ndx) {
     dc.pieChart("#trading-pair")
         .width(500)
         .height(300)
+        .dimension(dim)
+        .group(group)
         .radius(300)
         .innerRadius(30)
         .transitionDuration(500)
         .renderLabel(true)
         .slicesCap(10)
-        .dimension(dim)
-        .group(group)
         .legend(dc.legend());
-        
-        
 }
 
+//Bar chart with buy and sell type orders
+function show_buysell_amount(ndx) {
+    var dim = ndx.dimension(dc.pluck("Type"));
+    var group = dim.group();
+    
+    dc.barChart("#buy-sell-amount")
+        .width(500)
+        .height(300)
+        .dimension(dim)
+        .group(group)
+        .transitionDuration(500)
+        .x(d3.scale.ordinal())
+        .xUnits(dc.units.ordinal)
+        .elasticY(true)
+        .xAxisLabel("Type")
+        .yAxis().ticks(20);
+        
+}
