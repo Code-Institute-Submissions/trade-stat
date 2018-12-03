@@ -5,9 +5,19 @@ queue()
     
 function makeGraphs(error, tradeData) {
     var ndx = crossfilter(tradeData);
+    var all = ndx.groupAll();
+    
+    tradeData.forEach(function(d){
+        d["Date(UTC)"] = new Date(d["Date(UTC)"]);
+        d.Price = parseInt(d.Price);
+        d.Amount = parseInt(d.Amount);
+        d.Total = parseInt(d.Total);
+        d.Fee = parseInt(d.Fee);
+    });
     
     show_trading_pairs(ndx);
-    show_buysell_amount(ndx);
+    show_buysell_orders(ndx);
+    show_trading_volume(ndx);
     
     dc.renderAll();
     
@@ -15,14 +25,14 @@ function makeGraphs(error, tradeData) {
 
 //Pie chart with amount of trades on pairs
 function show_trading_pairs(ndx) {
-    var dim = ndx.dimension(dc.pluck("Market"));
-    var group = dim.group();
+    var marketDim = ndx.dimension(dc.pluck("Market"));
+    var tradingPairs = marketDim.group();
     
     dc.pieChart("#trading-pair")
         .width(500)
         .height(300)
-        .dimension(dim)
-        .group(group)
+        .dimension(marketDim)
+        .group(tradingPairs)
         .radius(300)
         .innerRadius(30)
         .transitionDuration(500)
@@ -32,20 +42,63 @@ function show_trading_pairs(ndx) {
 }
 
 //Bar chart with buy and sell type orders
-function show_buysell_amount(ndx) {
-    var dim = ndx.dimension(dc.pluck("Type"));
-    var group = dim.group();
+function show_buysell_orders(ndx) {
+    var typeDim = ndx.dimension(dc.pluck("Type"));
+    var buySellOrders = typeDim.group();
     
-    dc.barChart("#buy-sell-amount")
+    dc.barChart("#buy-sell-orders")
         .width(500)
         .height(300)
-        .dimension(dim)
-        .group(group)
+        .dimension(typeDim)
+        .group(buySellOrders)
         .transitionDuration(500)
         .x(d3.scale.ordinal())
         .xUnits(dc.units.ordinal)
         .elasticY(true)
         .xAxisLabel("Type")
         .yAxis().ticks(20);
-        
 }
+
+function show_trading_volume(ndx) {
+    var typeDim = ndx.dimension(dc.pluck("Type"));
+    var tradingVolume = typeDim.group().reduce(
+        function (p, v) {
+            p.count++;
+            p.total += v.Amount;
+            return p;
+        },
+        function (p, v) {
+            p.count--;
+            p.total -= v.Amount;
+            return p;
+        },
+        function () {
+            return { count:0, total: 0};
+        }
+    );
+    
+    dc.barChart("#trading-volume")
+        .width(500)
+        .height(300)
+        .dimension(typeDim)
+        .group(tradingVolume)
+        .valueAccessor(function (d) {
+            if (d.value.count == 0) {
+                return 0;
+            } else {
+                return d.value.total;
+            }
+        })
+        .transitionDuration(500)
+        .x(d3.scale.ordinal())
+        .xUnits(dc.units.ordinal)
+        .xAxisLabel("Type")
+        .yAxis().ticks(20);
+}
+
+
+
+    
+   
+    
+    
