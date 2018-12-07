@@ -9,10 +9,10 @@ function makeGraphs(error, tradeData) {
     
     tradeData.forEach(function(d){
         d["Date(UTC)"] = new Date(d["Date(UTC)"]);
-        d.Price = parseInt(d.Price);
-        d.Amount = parseInt(d.Amount);
-        d.Total = parseInt(d.Total);
-        d.Fee = parseInt(d.Fee);
+        d.Price = parseFloat(d.Price);
+        d.Amount = parseFloat(d.Amount);
+        d.Total = parseFloat(d.Total);
+        d.Fee = parseFloat(d.Fee);
     });
     
     show_trading_pairs(ndx);
@@ -22,7 +22,7 @@ function makeGraphs(error, tradeData) {
     dc.renderAll();
     
 }
-
+    
 //Pie chart with amount of trades on pairs
 function show_trading_pairs(ndx) {
     var marketDim = ndx.dimension(dc.pluck("Market"));
@@ -59,8 +59,9 @@ function show_buysell_orders(ndx) {
         .yAxis().ticks(20);
 }
 
+//Bar chart with trading volume per pair
 function show_trading_volume(ndx) {
-    var typeDim = ndx.dimension(dc.pluck("Type"));
+    var typeDim = ndx.dimension(dc.pluck("Market"));
     var tradingVolume = typeDim.group().reduce(
         function (p, v) {
             p.count++;
