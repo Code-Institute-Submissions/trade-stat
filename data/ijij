@@ -1,0 +1,28 @@
+function filterItems(query) {
+      return selectorDim.filter(function(el) {
+          return el.toLowerCase().indexOf(query.toLowerCase()) > 0;
+      });
+    }
+    console.log(filterItems('btc'));
+    
+    dc.selectMenu("#market-selector")
+        .dimension(selectorDim)
+        .group();
+        
+        
+function show_market_selector(ndx) {
+    var selectorDim = ndx.dimension(dc.pluck("Market"));
+    var marketSelector = selectorDim.group();
+    
+    function filterItems(query) {
+        return selectorDim.filter(function(el) {
+            return el.toLowerCase().indexOf(query.toLowerCase()) > 0;
+        });
+    }
+    console.log(filterItems("BTC"));
+    console.log(filterItems("ETH"));
+    
+    dc.selectMenu("#market-selector")
+        .dimension(selectorDim)
+        .group(marketSelector);
+}

@@ -7,22 +7,25 @@ function makeGraphs(error, tradeData) {
     var ndx = crossfilter(tradeData);
     var all = ndx.groupAll();
     
+    //string to number
     tradeData.forEach(function(d){
-        d["Date(UTC)"] = new Date(d["Date(UTC)"]);
         d.Price = parseFloat(d.Price);
         d.Amount = parseFloat(d.Amount);
         d.Total = parseFloat(d.Total);
         d.Fee = parseFloat(d.Fee);
     });
     
+    
     show_trading_pairs(ndx);
     show_buysell_orders(ndx);
     show_trading_volume(ndx);
+    show_gainloss_timeline(ndx);
     
     dc.renderAll();
-    
 }
-    
+
+
+ 
 //Pie chart with amount of trades on pairs
 function show_trading_pairs(ndx) {
     var marketDim = ndx.dimension(dc.pluck("Market"));
@@ -56,21 +59,22 @@ function show_buysell_orders(ndx) {
         .xUnits(dc.units.ordinal)
         .elasticY(true)
         .xAxisLabel("Type")
+        .yAxisLabel("Amount")
         .yAxis().ticks(20);
 }
 
 //Bar chart with trading volume per pair
 function show_trading_volume(ndx) {
-    var typeDim = ndx.dimension(dc.pluck("Market"));
-    var tradingVolume = typeDim.group().reduce(
+    var marketDim = ndx.dimension(dc.pluck("Market"));
+    var tradingVolume = marketDim.group().reduce(
         function (p, v) {
             p.count++;
-            p.total += v.Amount;
+            p.total += v.Total;
             return p;
         },
         function (p, v) {
             p.count--;
-            p.total -= v.Amount;
+            p.total -= v.Total;
             return p;
         },
         function () {
@@ -81,7 +85,7 @@ function show_trading_volume(ndx) {
     dc.barChart("#trading-volume")
         .width(500)
         .height(300)
-        .dimension(typeDim)
+        .dimension(marketDim)
         .group(tradingVolume)
         .valueAccessor(function (d) {
             if (d.value.count == 0) {
@@ -93,13 +97,16 @@ function show_trading_volume(ndx) {
         .transitionDuration(500)
         .x(d3.scale.ordinal())
         .xUnits(dc.units.ordinal)
-        .xAxisLabel("Type")
+        .elasticY(true)
+        .xAxisLabel("Market")
+        .yAxisLabel("Volume")
         .yAxis().ticks(20);
 }
 
-
-
+function show_gainloss_timeline(ndx) {
+    var dateDim = ndx.dimension(dc.pluck("Date"));
+    var gainLossPeriod =dateDim.group();
     
-   
     
     
+}
