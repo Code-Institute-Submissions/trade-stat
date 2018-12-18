@@ -15,6 +15,7 @@ function show_market_selector(ndx) {
     var marketSelector = selectorDim.group();
     
     function filterItems(query) {
+        if
         return selectorDim.filter(function(el) {
             return el.toLowerCase().indexOf(query.toLowerCase()) > 0;
         });
@@ -25,4 +26,41 @@ function show_market_selector(ndx) {
     dc.selectMenu("#market-selector")
         .dimension(selectorDim)
         .group(marketSelector);
+}
+
+var menuDim = filterItems('eth');
+    var marketSelector = menuDim.group();
+    
+    
+function filterItems(query) {
+        return ndx.dimension(dc.pluck("Market")).filter(function(el) {
+            return el.toLowerCase().indexOf(query.toLowerCase()) > 0;
+        });
+    }
+    
+function show_market_selector(ndx) {
+    var cryptoMarket = ["BTC","ETH"];
+    cryptoMarket[0] = filterItems("BTC");
+    cryptoMarket[1] = filterItems("ETH");
+    
+    var marketsDim = ndx.dimension(dc.pluck("Market"));
+    var selectorMenu = marketsDim.group();
+    
+    
+    function filterItems(query) {
+        return ndx.dimension(dc.pluck("Market")).filter(function(el) {
+            return el.toLowerCase().indexOf(query.toLowerCase()) > 0;
+        });
+    }
+    
+    
+    
+    var select = dc.selectMenu("#market-selector")
+                    .dimension(marketsDim)
+                    .group(selectorMenu);
+    
+    select.title(function (d){
+            return ;
+        });
+    
 }

@@ -14,8 +14,7 @@ function makeGraphs(error, tradeData) {
         d.Total = parseFloat(d.Total);
         d.Fee = parseFloat(d.Fee);
     });
-    
-    
+    show_market_selector(ndx);
     show_trading_pairs(ndx);
     show_buysell_orders(ndx);
     show_trading_volume(ndx);
@@ -24,12 +23,20 @@ function makeGraphs(error, tradeData) {
     dc.renderAll();
 }
 
-
+function show_market_selector(ndx) {
+    var marketDim = ndx.dimension(dc.pluck("Market"));
+    var selectorMenu = marketDim.group();
+    
+    dc.selectMenu("#market-selector")
+        .dimension(marketDim)
+        .group(selectorMenu);
+}
  
 //Pie chart with amount of trades on pairs
 function show_trading_pairs(ndx) {
     var marketDim = ndx.dimension(dc.pluck("Market"));
     var tradingPairs = marketDim.group();
+    
     
     dc.pieChart("#trading-pair")
         .width(500)
