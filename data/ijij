@@ -81,3 +81,17 @@ function diff(value) {
 	return buy;
 	console.log(buy);
 }
+
+function formatDate(date) {
+        var monthNames = [
+        "Jan", "Feb", "Mar",
+        "Apr", "May", "June", "July",
+        "Aug", "Sep", "Oct",
+        "Nov", "Dec"
+        ];
+    
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var year = date.getFullYear();
+        return day + ' ' + monthNames[monthIndex] + ' ' + year;
+    }

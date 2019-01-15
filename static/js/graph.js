@@ -9,12 +9,16 @@ function makeGraphs(error, tradeData) {
     
     //string to number
     tradeData.forEach(function(d){
-        d.Date = ["Date(UTC)"];
+        d.Date = new Date (d["Date(UTC)"]);
+        d.Day = d.Date.getDay(d.Date);
+        d.Months = d.Date.getMonth(d.Date);
+        d.Year = d.Date.getFullYear(d.Date);
         d.Price = parseFloat(d.Price);
         d.Amount = parseFloat(d.Amount);
         d.Total = parseFloat(d.Total);
         d.Fee = parseFloat(d.Fee);
     });
+    
     show_trading_pairs(ndx);
     show_buysell_orders(ndx);
     show_trading_volume(ndx);
@@ -23,6 +27,7 @@ function makeGraphs(error, tradeData) {
     
     dc.renderAll();
 }
+
 // give possitive and negative meaning to values 
 function mult(type) {
         switch(type) {
