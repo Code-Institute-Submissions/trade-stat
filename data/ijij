@@ -64,3 +64,20 @@ function show_market_selector(ndx) {
         });
     
 }
+
+function diff(value) {
+	let buy;
+	if(value.Type == "BUY") {
+		let buy = true;
+	} else {
+		let buy = false;
+	}
+	if(buy) {
+		value.Total++;
+	} else {
+		value.Total--;
+	}
+	
+	return buy;
+	console.log(buy);
+}

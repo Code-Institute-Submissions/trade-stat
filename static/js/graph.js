@@ -19,9 +19,18 @@ function makeGraphs(error, tradeData) {
     show_buysell_orders(ndx);
     show_trading_volume(ndx);
     show_gainloss_timeline(ndx);
+    show_profit(ndx);
     
     dc.renderAll();
 }
+// give possitive and negative meaning to values 
+function mult(type) {
+        switch(type) {
+        case 'SELL': return 1;
+        case 'BUY': return -1;
+        default: throw new Error('unknown Type ' + type);
+        }
+    } 
  
 //Pie chart with amount of trades on pairs
 function show_trading_pairs(ndx) {
@@ -107,12 +116,12 @@ function show_gainloss_timeline(ndx) {
     var monthlyMoveGroup = dateDimension.group().reduce(
         function (p, v) {
             p.count++;
-            p.total += v.buy;
+            p.total += mult(v.Type) * v.Total;
             return p;
         },
         function (p, v) {
             p.count--;
-            p.total -= v.buy;
+            p.total -= mult(v.Type) * v.Total;
             return p;
         },
         function () {
@@ -137,21 +146,43 @@ function show_gainloss_timeline(ndx) {
         .xUnits(dc.units.ordinal)
         .elasticY(true);
 }
-
-function diff(value) {
-	let buy;
-	if(value.Type == "BUY") {
-		let buy = true;
-	} else {
-		let buy = false;
-	}
-	if(buy) {
-		value.Total++;
-	} else {
-		value.Total--;
-	}
-	
-	return buy;
-	console.log(buy);
+//Bar chart with profit for each pair
+function show_profit(ndx) {
+    var typeDim = ndx.dimension(dc.pluck("Market"));
+    var profit = typeDim.group().reduce(
+        function (p, v) {
+            p.count++;
+            p.total += mult(v.Type) * v.Total;
+            return p;
+        },
+        function (p, v) {
+            p.count--;
+            p.total -= mult(v.Type) * v.Total;
+            return p;
+        },
+        function () {
+            return { count:0, total: 0};
+        }
+    );
+    
+    dc.barChart("#profit")
+        .width(500)
+        .height(300)
+        .dimension(typeDim)
+        .group(profit)
+        .valueAccessor(function (d) {
+            if (d.value.count == 0) {
+                return 0;
+            } else {
+                return d.value.total;
+            }
+        })
+        .transitionDuration(500)
+        .x(d3.scale.ordinal())
+        .xUnits(dc.units.ordinal)
+        .elasticY(true)
+        .xAxisLabel("Type")
+        .yAxisLabel("Amount")
+        .yAxis().ticks(20);
 }
 
