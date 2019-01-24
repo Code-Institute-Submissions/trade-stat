@@ -7,16 +7,19 @@ function makeGraphs(error, tradeData) {
     var ndx = crossfilter(tradeData);
     var all = ndx.groupAll();
     
-    //string to number
+    var dayMonthYear = d3.time.format("%d-%m-%y");
+    var monthYear = d3.time.format("%b_%y")
+    
+    //string to number and date conversion
     tradeData.forEach(function(d){
-        d.Date = new Date (d["Date(UTC)"]);
-        d.Day = d.Date.getDay(d.Date);
-        d.Months = d.Date.getMonth(d.Date);
-        d.Year = d.Date.getFullYear(d.Date);
+        d.date = new Date (d["Date(UTC)"]);
+        d.dd = dayMonthYear(new Date (d.date));
+        d.mmmYY = monthYear(new Date (d.date));
         d.Price = parseFloat(d.Price);
         d.Amount = parseFloat(d.Amount);
         d.Total = parseFloat(d.Total);
         d.Fee = parseFloat(d.Fee);
+        console.log(d.mmmYY);
     });
     
     show_trading_pairs(ndx);
@@ -78,7 +81,6 @@ function show_buysell_orders(ndx) {
 //Bar chart with trading volume per pair
 function show_trading_volume(ndx) {
     var marketDim = ndx.dimension(dc.pluck("Market"));
-    
     var tradingVolume = marketDim.group().reduce(
         function (p, v) {
             p.count++;
@@ -94,6 +96,7 @@ function show_trading_volume(ndx) {
             return { count:0, total: 0};
         }
     );
+    
     
     dc.barChart("#trading-volume")
         .width(500)
