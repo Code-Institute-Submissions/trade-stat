@@ -8,7 +8,7 @@ function makeGraphs(error, tradeData) {
     var all = ndx.groupAll();
     
     var dayMonthYear = d3.time.format("%d-%m-%y");
-    var monthYear = d3.time.format("%b_%y")
+    var monthYear = d3.time.format("%b_%y");
     
     //string to number and date conversion
     tradeData.forEach(function(d){
@@ -19,7 +19,7 @@ function makeGraphs(error, tradeData) {
         d.Amount = parseFloat(d.Amount);
         d.Total = parseFloat(d.Total);
         d.Fee = parseFloat(d.Fee);
-        console.log(d.mmmYY);
+        console.log(d.dd);
     });
     
     show_trading_pairs(ndx);
@@ -120,7 +120,9 @@ function show_trading_volume(ndx) {
 }
 
 function show_gainloss_timeline(ndx) {
-    var dateDimension = ndx.dimension(dc.pluck("Date(UTC)"));
+    var dateDimension = ndx.dimension(function(d) {
+        return d.dd;
+    });
     var monthlyMoveGroup = dateDimension.group().reduce(
         function (p, v) {
             p.count++;
@@ -150,8 +152,9 @@ function show_gainloss_timeline(ndx) {
             }
         })
         .transitionDuration(500)
-        .x(d3.scale.ordinal())
-        .xUnits(dc.units.ordinal)
+        .x(d3.time.scale()
+            .domain([new Date (2018, 0, 1), new Date (2018, 11, 31)]))
+        .xUnits(d3.timeMonths)
         .elasticY(true);
 }
 //Bar chart with profit for each pair
