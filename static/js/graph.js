@@ -13,14 +13,14 @@ function makeGraphs(error, tradeData) {
     //string to number and date conversion
     tradeData.forEach(function(d){
         d.date = new Date (d["Date(UTC)"]);
-        d.dd = dayMonthYear(new Date (d.date));
-        d.mmmYY = monthYear(new Date (d.date));
+        d.dd = dayMonthYear(d.date);
+        d.mmmYY = monthYear(d.date);
         d.Price = parseFloat(d.Price);
         d.Amount = parseFloat(d.Amount);
         d.Total = parseFloat(d.Total);
         d.Fee = parseFloat(d.Fee);
-        console.log(d.dd);
     });
+    
     
     show_trading_pairs(ndx);
     show_buysell_orders(ndx);
@@ -120,9 +120,7 @@ function show_trading_volume(ndx) {
 }
 
 function show_gainloss_timeline(ndx) {
-    var dateDimension = ndx.dimension(function(d) {
-        return d.dd;
-    });
+    var dateDimension = ndx.dimension(dc.pluck("Date(UTC)"));
     var monthlyMoveGroup = dateDimension.group().reduce(
         function (p, v) {
             p.count++;
@@ -139,6 +137,10 @@ function show_gainloss_timeline(ndx) {
         }
     );
     
+    var minDate = dateDimension.bottom(1)[0].date;
+    var maxDate = dateDimension.top(1)[0].date;
+    
+    
     dc.lineChart("#gain-loss-period")
         .width(1000)
         .height(500)
@@ -152,10 +154,9 @@ function show_gainloss_timeline(ndx) {
             }
         })
         .transitionDuration(500)
-        .x(d3.time.scale()
-            .domain([new Date (2018, 0, 1), new Date (2018, 11, 31)]))
-        .xUnits(d3.timeMonths)
+        .x(d3.time.scale().domain([minDate,maxDate]))
         .elasticY(true);
+        
 }
 //Bar chart with profit for each pair
 function show_profit(ndx) {
