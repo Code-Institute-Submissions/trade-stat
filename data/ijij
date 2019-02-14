@@ -95,3 +95,25 @@ function formatDate(date) {
         var year = date.getFullYear();
         return day + ' ' + monthNames[monthIndex] + ' ' + year;
     }
+    
+function show_gainloss_timeline(ndx) {
+    var dateDimension = ndx.dimension(dc.pluck("Date(UTC)"));
+    var monthlyMoveGroup = dateDimension.group().reduce(
+        function (p, v) {
+            p.count++;
+            p.total += mult(v.Type) * v.Total;
+            return p;
+            console.log(p);
+        },
+        function (p, v) {
+            p.count--;
+            p.total -= mult(v.Type) * v.Total;
+            return p;
+        },
+        function () {
+            return { count:0, total: 0};
+        }
+    );
+    
+    var minDate = dateDimension.bottom(1)[0].date;
+    var maxDate = dateDimension.top(1)[0].date;
