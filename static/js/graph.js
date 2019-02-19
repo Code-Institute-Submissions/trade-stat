@@ -1,6 +1,6 @@
 //Receive data + crossfilter
 queue()
-    .defer(d3.csv, "data/Binance-01mar-31may.csv")
+    .defer(d3.csv, "data/trades.csv")
     .await(makeGraphs);
     
 function makeGraphs(error, tradeData) {
@@ -8,21 +8,20 @@ function makeGraphs(error, tradeData) {
     var all = ndx.groupAll();
     
     var dayMonthYear = d3.time.format("%m-%d-%Y");
-    var monthYear = d3.time.format("%b_%y");
     
     //string to number and date conversion
     tradeData.forEach(function(d){
         d.date = new Date (d["Date(UTC)"]);
         d.dd = new Date (dayMonthYear(d.date));
-        d.mmmYY = monthYear(d.date);
         d.Price = parseFloat(d.Price);
         d.Amount = parseFloat(d.Amount);
         d.Total = parseFloat(d.Total);
         d.Fee = parseFloat(d.Fee);
-        console.log(d.dd);
+        d.split = d.Market.slice(3);
+        console.log(d.split);
     });
     
-    
+    show_selectMenu(ndx);
     show_trading_pairs(ndx);
     show_buysell_orders(ndx);
     show_trading_volume(ndx);
@@ -40,7 +39,16 @@ function mult(type) {
         default: throw new Error('unknown Type ' + type);
         }
     } 
- 
+
+function show_selectMenu(ndx){
+    var selectorDim = ndx.dimension(dc.pluck("split"));
+    var selectorGroup = selectorDim.group();
+    
+    dc.selectMenu("#selectMenu")
+        .dimension(selectorDim)
+        .group(selectorGroup);
+    
+} 
 //Pie chart with amount of trades on pairs
 function show_trading_pairs(ndx) {
     var marketDim = ndx.dimension(dc.pluck("Market"));
@@ -100,7 +108,7 @@ function show_trading_volume(ndx) {
     
     
     dc.barChart("#trading-volume")
-        .width(500)
+        .width(1000)
         .height(300)
         .dimension(marketDim)
         .group(tradingVolume)
@@ -141,8 +149,6 @@ function show_gainloss_timeline(ndx) {
     var minDate = dateDimension.bottom(1)[0];
     var maxDate = dateDimension.top(1)[0];
     
-    console.log(minDate);
-    
     dc.lineChart("#gain-loss-period")
         .width(1000)
         .height(500)
@@ -157,6 +163,7 @@ function show_gainloss_timeline(ndx) {
         })
         .transitionDuration(500)
         .x(d3.time.scale().domain([minDate,maxDate]))
+        .brushOn(false)
         .elasticX(true)
         .elasticY(true);
         
@@ -181,7 +188,7 @@ function show_profit(ndx) {
     );
     
     dc.barChart("#profit")
-        .width(500)
+        .width(1000)
         .height(300)
         .dimension(typeDim)
         .group(profit)
