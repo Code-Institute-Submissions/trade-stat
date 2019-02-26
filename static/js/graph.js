@@ -17,9 +17,11 @@ function makeGraphs(error, tradeData) {
         d.Amount = parseFloat(d.Amount);
         d.Total = parseFloat(d.Total);
         d.Fee = parseFloat(d.Fee);
-        d.split = d.Market.slice(3);
-        console.log(d.split);
+        d.marketSecond = d.Market.slice(3);
+        d.marketFirst = d.Market.slice(0, 3);
+        console.log(d.marketFirst);
     });
+    
     
     show_selectMenu(ndx);
     show_trading_pairs(ndx);
@@ -41,7 +43,7 @@ function mult(type) {
     } 
 
 function show_selectMenu(ndx){
-    var selectorDim = ndx.dimension(dc.pluck("split"));
+    var selectorDim = ndx.dimension(dc.pluck("marketSecond"));
     var selectorGroup = selectorDim.group();
     
     dc.selectMenu("#selectMenu")
@@ -51,15 +53,36 @@ function show_selectMenu(ndx){
 } 
 //Pie chart with amount of trades on pairs
 function show_trading_pairs(ndx) {
-    var marketDim = ndx.dimension(dc.pluck("Market"));
-    var tradingPairs = marketDim.group();
+    var marketDim = ndx.dimension(dc.pluck("marketFirst"));
+    var tradingVolume = marketDim.group().reduce(
+        function (p, v) {
+            p.count++;
+            p.total += v.Total;
+            return p;
+        },
+        function (p, v) {
+            p.count--;
+            p.total -= v.Total;
+            return p;
+        },
+        function () {
+            return { count:0, total: 0};
+        }
+    );
     
     
     dc.pieChart("#trading-pair")
         .width(500)
         .height(300)
         .dimension(marketDim)
-        .group(tradingPairs)
+        .group(tradingVolume)
+        .valueAccessor(function (d) {
+            if (d.value.count == 0) {
+                return 0;
+            } else {
+                return d.value.total;
+            }
+        })
         .radius(300)
         .innerRadius(30)
         .transitionDuration(500)
