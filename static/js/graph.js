@@ -47,6 +47,22 @@ function mult(type) {
         case 'BUY': return -1;
         default: throw new Error('unknown Type ' + type);
         }
+    }
+
+function buy(type) {
+        switch(type) {
+        case 'SELL': return 0;
+        case 'BUY': return 1;
+        default: throw new Error('unknown Type ' + type);
+        }
+    } 
+
+function sell(type) {
+        switch(type) {
+        case 'SELL': return 1;
+        case 'BUY': return 0;
+        default: throw new Error('unknown Type ' + type);
+        }
     } 
 
 function show_selectMenu(ndx){
@@ -140,15 +156,30 @@ function show_buysell_orders(ndx) {
 //Bar chart with trading volume per pair
 function show_trading_volume(ndx) {
     var marketDim = ndx.dimension(dc.pluck("marketFirst"));
-    var tradingVolume = marketDim.group().reduce(
+    var buyVolume = marketDim.group().reduce(
         function (p, v) {
             p.count++;
-            p.total += v.Total;
+            p.total += buy(v.Type) * v.Total;
             return p;
         },
         function (p, v) {
             p.count--;
-            p.total -= v.Total;
+            p.total -= buy(v.Type) * v.Total;
+            return p;
+        },
+        function () {
+            return { count:0, total: 0};
+        }
+    );
+    var sellVolume = marketDim.group().reduce(
+        function (p, v) {
+            p.count++;
+            p.total += sell(v.Type) * v.Total;
+            return p;
+        },
+        function (p, v) {
+            p.count--;
+            p.total -= sell(v.Type) * v.Total;
             return p;
         },
         function () {
@@ -161,7 +192,8 @@ function show_trading_volume(ndx) {
         .width(1000)
         .height(300)
         .dimension(marketDim)
-        .group(tradingVolume)
+        .group(buyVolume)
+        .stack(sellVolume)
         .valueAccessor(function (d) {
             if (d.value.count == 0) {
                 return 0;
