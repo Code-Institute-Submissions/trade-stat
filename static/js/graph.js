@@ -26,7 +26,7 @@ function makeGraphs(error, tradeData) {
         d.Fee = parseFloat(d.Fee);
         d.marketSecond = d.Market.slice(3);
         d.marketFirst = d.Market.slice(0, 3);
-        console.log(d.months);
+        console.log(d.Type);
     });
     
     //render all graphs
@@ -96,7 +96,7 @@ function show_trading_pairs(ndx) {
     
     dc.pieChart("#trading-pair")
         .width(500)
-        .height(300)
+        .height(200)
         .dimension(marketDim)
         .group(tradingVolume)
         .valueAccessor(function (d) {
@@ -133,8 +133,8 @@ function show_buysell_orders(ndx) {
     );
     
     dc.barChart("#buy-sell-orders")
-        .width(500)
-        .height(300)
+        .width(200)
+        .height(200)
         .dimension(typeDim)
         .group(buySellOrders)
         .valueAccessor(function (d) {
@@ -150,7 +150,7 @@ function show_buysell_orders(ndx) {
         .elasticY(true)
         .xAxisLabel("Type")
         .yAxisLabel("Amount")
-        .yAxis().ticks(20);
+        .yAxis().ticks(10);
 }
 
 //Bar chart with trading volume per pair
@@ -189,8 +189,8 @@ function show_trading_volume(ndx) {
     
     
     dc.barChart("#trading-volume")
-        .width(1000)
-        .height(300)
+        .width(500)
+        .height(200)
         .dimension(marketDim)
         .group(buyVolume)
         .stack(sellVolume)
@@ -205,9 +205,9 @@ function show_trading_volume(ndx) {
         .x(d3.scale.ordinal())
         .xUnits(dc.units.ordinal)
         .elasticY(true)
-        .xAxisLabel("Type")
-        .yAxisLabel("Amount")
-        .yAxis().ticks(20);
+        .xAxisLabel("Pair")
+        .yAxisLabel("Volume")
+        .yAxis().ticks(10);
 }
 
 function show_gainloss_timeline(ndx) {
@@ -215,12 +215,27 @@ function show_gainloss_timeline(ndx) {
     var monthlyMoveGroup = dateDimension.group().reduce(
         function (p, v) {
             p.count++;
-            p.total += mult(v.Type) * v.Total;
+            p.total += buy(v.Type) * v.Total;
             return p;
         },
         function (p, v) {
             p.count--;
-            p.total -= mult(v.Type) * v.Total;
+            p.total -= buy(v.Type) * v.Total;
+            return p;
+        },
+        function () {
+            return { count:0, total: 0};
+        }
+    );
+    var sellVolume = dateDimension.group().reduce(
+        function (p, v) {
+            p.count++;
+            p.total += sell(v.Type) * v.Total;
+            return p;
+        },
+        function (p, v) {
+            p.count--;
+            p.total -= sell(v.Type) * v.Total;
             return p;
         },
         function () {
@@ -231,11 +246,12 @@ function show_gainloss_timeline(ndx) {
     var minDate = dateDimension.bottom(1)[0];
     var maxDate = dateDimension.top(1)[0];
     
-    dc.lineChart("#gain-loss-period")
-        .width(1000)
-        .height(500)
+    dc.barChart("#gain-loss-period")
+        .width(700)
+        .height(200)
         .dimension(dateDimension)
         .group(monthlyMoveGroup)
+        .stack(sellVolume)
         .valueAccessor(function (d) {
             if (d.value.count == 0) {
                 return 0;
