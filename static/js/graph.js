@@ -9,28 +9,27 @@ function makeGraphs(error, tradeData) {
     
     //parse dates
     var dayMonthYear = d3.time.format("%m-%d-%Y");
-    var monthNames = function(dt){
-        var mlist = [ "January", "February", "March", "April", "May", "June", 
-        "July", "August", "September", "October", "November", "December" ];
-        return mlist[dt.getMonth()];
-    };
+    var monthtest = d3.time.format("%B");
     
     //string to number and date conversion
     tradeData.forEach(function(d){
         d.date = new Date (d["Date(UTC)"]);
         d.dd = new Date (dayMonthYear(d.date));
-        d.months = monthNames (new Date(d.dd));
+        d.months = monthtest (new Date(d.dd));
+        d.year = new Date (d.dd).getFullYear();
         d.Price = parseFloat(d.Price);
         d.Amount = parseFloat(d.Amount);
         d.Total = parseFloat(d.Total);
         d.Fee = parseFloat(d.Fee);
         d.marketSecond = d.Market.slice(3);
         d.marketFirst = d.Market.slice(0, 3);
-        console.log(d.Type);
+        console.log(d.months);
     });
     
     //render all graphs
-    show_selectMenu(ndx);
+    show_marketMenu(ndx);
+    show_yearMenu(ndx);
+    show_monthMenu(ndx);
     show_trading_pairs(ndx);
     show_buysell_orders(ndx);
     show_trading_volume(ndx);
@@ -65,15 +64,34 @@ function sell(type) {
         }
     } 
 
-function show_selectMenu(ndx){
+//select Market menu
+function show_marketMenu(ndx){
     var selectorDim = ndx.dimension(dc.pluck("marketSecond"));
     var selectorGroup = selectorDim.group();
     
     dc.selectMenu("#selectMenu")
         .dimension(selectorDim)
         .group(selectorGroup);
+}
+//select year menu
+function show_yearMenu(ndx){
+    var yearDim = ndx.dimension(dc.pluck("year"));
+    var yearGroup = yearDim.group();
     
+    dc.selectMenu("#yearMenu")
+        .dimension(yearDim)
+        .group(yearGroup);
 } 
+//select month menu
+function show_monthMenu(ndx){
+    var monthDim = ndx.dimension(dc.pluck("months"));
+    var monthGroup = monthDim.group();
+    
+    dc.selectMenu("#monthMenu")
+        .dimension(monthDim)
+        .group(monthGroup);
+}
+
 //Pie chart with amount of trades on pairs
 function show_trading_pairs(ndx) {
     var marketDim = ndx.dimension(dc.pluck("marketFirst"));
