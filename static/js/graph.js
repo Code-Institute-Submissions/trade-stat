@@ -113,7 +113,7 @@ function show_trading_pairs(ndx) {
     
     
     dc.pieChart("#trading-pair")
-        .width(500)
+        .width(300)
         .height(200)
         .dimension(marketDim)
         .group(tradingVolume)
