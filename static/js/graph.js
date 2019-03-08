@@ -265,7 +265,7 @@ function show_gainloss_timeline(ndx) {
     var maxDate = dateDimension.top(1)[0];
     
     dc.barChart("#gain-loss-period")
-        .width(700)
+        .width(1000)
         .height(200)
         .dimension(dateDimension)
         .group(monthlyMoveGroup)
