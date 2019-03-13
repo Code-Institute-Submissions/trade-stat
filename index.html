@@ -17,19 +17,20 @@
     <script type="text/javascript" src="static/js/jquery.min.js"></script>
 </head>
 <body>
-    
-    <h1>Trading Statistic</h1>
+    <div class="container">
+        <h1>Trading Statistic</h1>   
+    </div>
     <div class="container">
         <div class="row">  
-            <div class="selectMenus col-xs-4">
+            <div class="selectMenus col-xs-4 col-sm-2 col-sm-offset-1">
                 <h4>Market</h4>
                 <div id="selectMenu"></div>
             </div>
-            <div class="selectMenus col-xs-4">
+            <div class="selectMenus col-xs-4 col-sm-2">
                 <h4>Year</h4>
                 <div id="yearMenu"></div>
             </div>
-            <div class="selectMenus col-xs-4">
+            <div class="selectMenus col-xs-4 col-sm-2">
                 <h4>Month</h4>
                 <div id="monthMenu"></div>
             </div>
@@ -37,15 +38,11 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 col-sm-4">
+            <div class="graph col-xs-12 col-sm-4 col-sm-offset-1">
                 <h4>Total volume per asset</h4>
                 <div id="trading-pair"></div>
             </div>
-            <div class="col-xs-12 col-sm-2">
-                <h4>Volume</h4>
-                <div id="buy-sell-orders"></div>
-            </div>
-            <div class="col-xs-12 col-sm-6">
+            <div class="graph col-xs-12 col-sm-7">
                 <h4>Compare volume between assets</h4>
                 <div id="trading-volume"></div>
             </div>
@@ -53,17 +50,21 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 col-sm-12">
-                <h4>Daily volume</h4>
-                <div id="gain-loss-period"></div>
+            <div class="graph col-xs-12 col-sm-4 col-sm-offset-1">
+                <h4>Volume</h4>
+                <div id="buy-sell-orders"></div>
+            </div>
+            <div class="col-xs-12 col-sm-7">
+                <h4>Difference between volumes per pair</h4>
+                <div id="profit"></div>
             </div>
         </div>
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 col-sm-12">
-                <h4>Difference between volumes per pair</h4>
-                <div id="profit"></div>
+            <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-10 col-md-offset-2">
+                <h4>Daily volume</h4>
+                <div id="gain-loss-period"></div>
             </div>
         </div>
     </div>

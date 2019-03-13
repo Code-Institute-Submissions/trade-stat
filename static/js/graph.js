@@ -124,7 +124,7 @@ function show_trading_pairs(ndx) {
                 return d.value.total;
             }
         })
-        .radius(300)
+        .radius(100)
         .innerRadius(30)
         .transitionDuration(500)
         .slicesCap(10)
@@ -265,7 +265,7 @@ function show_gainloss_timeline(ndx) {
     var maxDate = dateDimension.top(1)[0];
     
     dc.barChart("#gain-loss-period")
-        .width(1000)
+        .width(750)
         .height(200)
         .dimension(dateDimension)
         .group(monthlyMoveGroup)
@@ -304,8 +304,8 @@ function show_profit(ndx) {
     );
     
     dc.barChart("#profit")
-        .width(1000)
-        .height(300)
+        .width(500)
+        .height(200)
         .dimension(typeDim)
         .group(profit)
         .valueAccessor(function (d) {
@@ -321,6 +321,6 @@ function show_profit(ndx) {
         .elasticY(true)
         .xAxisLabel("Type")
         .yAxisLabel("Amount")
-        .yAxis().ticks(20);
+        .yAxis().ticks(10);
 }
 
