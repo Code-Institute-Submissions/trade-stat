@@ -124,8 +124,8 @@ function show_trading_pairs(ndx) {
                 return d.value.total;
             }
         })
-        .radius(100)
-        .innerRadius(30)
+        .radius(80)
+        .innerRadius(20)
         .transitionDuration(500)
         .slicesCap(10)
         .legend(dc.legend());
@@ -151,7 +151,7 @@ function show_buysell_orders(ndx) {
     );
     
     dc.barChart("#buy-sell-orders")
-        .width(200)
+        .width(280)
         .height(200)
         .dimension(typeDim)
         .group(buySellOrders)
