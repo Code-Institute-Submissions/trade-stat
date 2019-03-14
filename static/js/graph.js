@@ -23,7 +23,6 @@ function makeGraphs(error, tradeData) {
         d.Fee = parseFloat(d.Fee);
         d.marketSecond = d.Market.slice(3);
         d.marketFirst = d.Market.slice(0, 3);
-        console.log(d.months);
     });
     
     //render all graphs
@@ -227,7 +226,7 @@ function show_trading_volume(ndx) {
         .yAxisLabel("Volume")
         .yAxis().ticks(10);
 }
-
+//barchart on timeline with volume per day
 function show_gainloss_timeline(ndx) {
     var dateDimension = ndx.dimension(dc.pluck("dd"));
     var monthlyMoveGroup = dateDimension.group().reduce(
@@ -279,6 +278,8 @@ function show_gainloss_timeline(ndx) {
         })
         .transitionDuration(500)
         .x(d3.time.scale().domain([minDate,maxDate]))
+        .xAxisLabel("Period")
+        .yAxisLabel("Amount")
         .brushOn(false)
         .elasticX(true)
         .elasticY(true);
@@ -319,8 +320,9 @@ function show_profit(ndx) {
         .x(d3.scale.ordinal())
         .xUnits(dc.units.ordinal)
         .elasticY(true)
-        .xAxisLabel("Type")
+        .xAxisLabel("Pair")
         .yAxisLabel("Amount")
         .yAxis().ticks(10);
 }
+
 
