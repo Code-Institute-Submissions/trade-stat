@@ -39,29 +39,29 @@ function makeGraphs(error, tradeData) {
 }
 
 // give possitive and negative meaning to values 
-function mult(type) {
-        switch(type) {
+function multiply(type) {
+    switch(type) {
         case 'SELL': return 1;
         case 'BUY': return -1;
         default: throw new Error('unknown Type ' + type);
-        }
     }
+}
 
 function buy(type) {
-        switch(type) {
+    switch(type) {
         case 'SELL': return 0;
         case 'BUY': return 1;
         default: throw new Error('unknown Type ' + type);
-        }
-    } 
+    }
+} 
 
 function sell(type) {
-        switch(type) {
+    switch(type) {
         case 'SELL': return 1;
         case 'BUY': return 0;
         default: throw new Error('unknown Type ' + type);
-        }
-    } 
+    }
+} 
 
 //select Market menu
 function show_marketMenu(ndx){
@@ -117,7 +117,7 @@ function show_trading_pairs(ndx) {
         .dimension(marketDim)
         .group(tradingVolume)
         .valueAccessor(function (d) {
-            if (d.value.count == 0) {
+            if (d.value.count === 0) {
                 return 0;
             } else {
                 return d.value.total;
@@ -126,7 +126,7 @@ function show_trading_pairs(ndx) {
         .radius(80)
         .innerRadius(20)
         .transitionDuration(500)
-        .slicesCap(10)
+        .slicesCap(5)
         .legend(dc.legend());
 }
 
@@ -155,7 +155,7 @@ function show_buysell_orders(ndx) {
         .dimension(typeDim)
         .group(buySellOrders)
         .valueAccessor(function (d) {
-            if (d.value.count == 0) {
+            if (d.value.count === 0) {
                 return 0;
             } else {
                 return d.value.total;
@@ -209,10 +209,10 @@ function show_trading_volume(ndx) {
         .width(500)
         .height(200)
         .dimension(marketDim)
-        .group(buyVolume)
-        .stack(sellVolume)
+        .group(buyVolume, "Buy")
+        .stack(sellVolume, "Sell")
         .valueAccessor(function (d) {
-            if (d.value.count == 0) {
+            if (d.value.count === 0) {
                 return 0;
             } else {
                 return d.value.total;
@@ -224,6 +224,7 @@ function show_trading_volume(ndx) {
         .elasticY(true)
         .xAxisLabel("Pair")
         .yAxisLabel("Volume")
+        .legend(dc.legend().horizontal(true).x(300))
         .yAxis().ticks(10);
 }
 //barchart on timeline with volume per day
@@ -270,7 +271,7 @@ function show_gainloss_timeline(ndx) {
         .group(monthlyMoveGroup)
         .stack(sellVolume)
         .valueAccessor(function (d) {
-            if (d.value.count == 0) {
+            if (d.value.count === 0) {
                 return 0;
             } else {
                 return d.value.total;
@@ -291,12 +292,12 @@ function show_profit(ndx) {
     var profit = typeDim.group().reduce(
         function (p, v) {
             p.count++;
-            p.total += mult(v.Type) * v.Total;
+            p.total += multiply(v.Type) * v.Total;
             return p;
         },
         function (p, v) {
             p.count--;
-            p.total -= mult(v.Type) * v.Total;
+            p.total -= multiply(v.Type) * v.Total;
             return p;
         },
         function () {
@@ -310,7 +311,7 @@ function show_profit(ndx) {
         .dimension(typeDim)
         .group(profit)
         .valueAccessor(function (d) {
-            if (d.value.count == 0) {
+            if (d.value.count === 0) {
                 return 0;
             } else {
                 return d.value.total;
