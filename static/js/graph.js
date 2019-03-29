@@ -317,6 +317,14 @@ function show_profit(ndx) {
                 return d.value.total;
             }
         })
+        .colors(d3.scale.ordinal().domain(["positive", "negative"])
+                                  .range(["#008000", "#B22222"]))
+        .colorAccessor(function(d) {
+          if (d.value.total > 0) {
+            return "positive";
+          }
+          return "negative";
+        })
         .transitionDuration(500)
         .x(d3.scale.ordinal())
         .xUnits(dc.units.ordinal)
