@@ -230,7 +230,7 @@ function show_trading_volume(ndx) {
 //barchart on timeline with volume per day
 function show_gainloss_timeline(ndx) {
     var dateDimension = ndx.dimension(dc.pluck("dd"));
-    var monthlyMoveGroup = dateDimension.group().reduce(
+    var buyVolume = dateDimension.group().reduce(
         function (p, v) {
             p.count++;
             p.total += buy(v.Type) * v.Total;
@@ -264,12 +264,12 @@ function show_gainloss_timeline(ndx) {
     var minDate = dateDimension.bottom(1)[0];
     var maxDate = dateDimension.top(1)[0];
     
-    dc.barChart("#gain-loss-period")
-        .width(750)
+    dc.barChart("#daily-volume")
+        .width(3000)
         .height(200)
         .dimension(dateDimension)
-        .group(monthlyMoveGroup)
-        .stack(sellVolume)
+        .group(buyVolume, "Buy")
+        .stack(sellVolume, "Sell")
         .valueAccessor(function (d) {
             if (d.value.count === 0) {
                 return 0;
@@ -279,9 +279,11 @@ function show_gainloss_timeline(ndx) {
         })
         .transitionDuration(500)
         .x(d3.time.scale().domain([minDate,maxDate]))
+        .gap(-10)
+        .legend(dc.legend().horizontal(true).x(350))
         .xAxisLabel("Period")
         .yAxisLabel("Amount")
-        .brushOn(false)
+        .brushOn(true)
         .elasticX(true)
         .elasticY(true);
         
