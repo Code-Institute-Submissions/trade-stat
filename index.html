@@ -33,8 +33,8 @@
         <a href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
         <div class="container graphs">
             <div class="row">
-                <div class="col-">
-                    
+                <div class="col-sm-offset-1">
+                    <h4>WHYYYY</h4>
                 </div>   
             </div>
         </div>
@@ -52,16 +52,21 @@
                     <h4>Month</h4>
                     <div id="monthMenu"></div>
                 </div>
+                <div class="col-sm-offset-1 col-xs-11">
+                    <p>Select menu provide number of trades opposite each option.</p>    
+                </div>
             </div> 
         </div>
         <div class="container graphs">
             <div class="row">
                 <div class="chart col-xs-12 col-sm-4 col-sm-offset-1">
-                    <h4>Total volume per asset</h4>
+                    <h4>Volume per asset</h4>
+                    <p>Chart shows how market volume splited between assets.</p>
                     <div id="trading-pair"></div>
                 </div>
                 <div class="chart col-xs-12 col-sm-7">
                     <h4>Compare volume between assets</h4>
+                    <p>Chart shows Buy, Sell and Total volume per asset.</p>
                     <div id="trading-volume"></div>
                 </div>
             </div>
@@ -70,10 +75,12 @@
             <div class="row">
                 <div class="chart col-xs-12 col-sm-4 col-sm-offset-1">
                     <h4>Volume</h4>
+                    <p>Chart shows Buy and Sell volume separate.</p>
                     <div id="buy-sell-orders"></div>
                 </div>
                 <div class="chart col-xs-12 col-sm-7">
                     <h4>Gain/Loss</h4>
+                    <p>Chart shows Gain or Loss per asset.</p>
                     <div id="profit"></div>
                 </div>
             </div>
@@ -82,6 +89,7 @@
             <div class="row">
                 <div class="chart col-xs-12 col-sm-11 col-sm-offset-1 col-md-10 col-md-offset-2">
                     <h4>Daily volume</h4>
+                    <p>Chart shows Buy, Sell and Total volume per day.</p>
                     <div id="daily-volume"></div>
                 </div>
             </div>
