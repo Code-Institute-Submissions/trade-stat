@@ -72,6 +72,9 @@ function show_marketMenu(ndx){
         .dimension(selectorDim)
         .group(selectorGroup);
 }
+
+
+
 //select year menu
 function show_yearMenu(ndx){
     var yearDim = ndx.dimension(dc.pluck("year"));
