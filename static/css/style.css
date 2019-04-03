@@ -1,8 +1,17 @@
+.navbar {
+    margin: 0px;
+}
+
 .graphs {
     padding: 10px 10px;
     border-bottom: 1px solid #178acc;
 }
 
+.selectMenus {
+    margin-bottom: 10px;
+}
+
+/*vertical scrolling*/
 .chart {
     overflow-x:scroll;
 }
@@ -11,7 +20,7 @@
     max-width: 750px;
     overflow-x:scroll;
 }
-
+/*popup tips*/
 .tips {
     visibility: hidden;
     position: absolute;
