@@ -12,3 +12,13 @@
     overflow-x:scroll;
 }
 
+.tips {
+    visibility: hidden;
+    position: absolute;
+}
+
+.tips.active {
+    visibility: visible; 
+    position: relative;
+}
+
