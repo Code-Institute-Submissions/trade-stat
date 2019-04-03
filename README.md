@@ -1,34 +1,121 @@
-Your Project's Name
-One or two paragraphs providing an overview of your project.
+<h1>Binance Trade Stat</h1>
+<p>
+    This dashboard made to help people who trading on cryptocurrency exchange to 
+    control their traiding history and do some analytics using diffenct charts. 
+    Exchanges by them selfs don't provide any statistics about you trades and 
+    results and some people don't have any control or they
+    have to work with exel and do formulas to get the result, so now they just 
+    need to upload csv file and see the result.
+</p>
+<p>
+    At the moment this is just basic charts that visualise yours traiding results 
+    using csv file from cryptocurrency exchange.
+    But there is a lot of options to improve and give more functionality for 
+    analysys for people.
+    At this moment it works only with Binance platform.
+</p>
 
-Essentially, this part is your sales pitch.
-
-UX
-Use this section to provide insight into your UX process, focusing on who this website is for, what it is that they want to achieve and how your project is the best way to help them achieve these things.
-
-In particular, as part of this section we recommend that you provide a list of User Stories, with the following general structure:
-
-As a user type, I want to perform an action, so that I can achieve a goal.
-This section is also where you would share links to any wireframes, mockups, diagrams etc. that you created as part of the design process. These files should themselves either be included in the project itself (in an separate directory), or just hosted elsewhere online and can be in any format that is viewable inside the browser.
-
-Features
-In this section, you should go over the different parts of your project, and describe each in a sentence or so.
-
-Existing Features
-Feature 1 - allows users X to achieve Y, by having them fill out Z
-...
-For some/all of your features, you may choose to reference the specific project files that implement them, although this is entirely optional.
-
-In addition, you may also use this section to discuss plans for additional features to be implemented in the future:
-
-Features Left to Implement
-Another feature idea
-Technologies Used
-In this section, you should mention all of the languages, frameworks, libraries, and any other tools that you have used to construct this project. For each, provide its name, a link to its official site and a short sentence of why it was used.
-
-JQuery
-The project uses JQuery to simplify DOM manipulation.
-Testing
+<h2>UX</h2>
+<p>
+    This website focusing on people who are trading on crypto assets markets. On 
+    this website people can see markets and assets where they been more active 
+    and compare them to each other. There is different filters and charts that 
+    help people to achieve their goal.
+</p>
+<ul>
+    <li>
+        As user I want to have control over my trades and I need a tool that can
+        help me to analyze and save my time.
+    </li>
+</ul>
+<h2>Features</h2>
+<h3>Existing Features</h3>
+<ul>
+    <li>
+        Guide - Here you can show and hide tips about the dashboard by click.
+    </li>
+    <li>
+        Reset - Here you can reset all filterswith one click.
+    </li>
+    <li>
+        Market selector - Here you can choose between markets. In this menu 
+        oposite each option I can see numbers of trades.
+    </li>
+    <li>
+        Year selector - Here you can choose between years. In this menu 
+        oposite each option I can see numbers of trades.
+    </li>
+    <li>
+        Month selector - Here you can choose between months. In this menu 
+        oposite each option I can see numbers of trades.
+    </li>
+    <li>
+        Volume per asset (PieChart) - Here you can see total market volume 
+        splited between different assets and compare them.
+    </li>
+    <li>
+        Compare volume between assets (Stacked BarChart) - Here you can compare 
+        total, buy and sell volumes between assets.
+    </li>
+    <li>
+        Volume (BarChart) - Here you can see buy and sell volumes separtly and 
+        difference between them. 
+    </li>
+    <li>
+        Gain/Loss (BarChart) - Here you can see trading result is it possitive 
+        or negative. 
+    </li>
+    <li>
+        Daily volume (Timeline BarChart) - Here you can see volumes on timeline 
+        and to choose specific day or period for more details.
+    </li>
+</ul>
+<h3>Features Left to Implement</h3>
+<ul>
+    <li>
+        Make some section shows total volume and percent of gain/loss from it.
+    </li>
+</ul>
+<h2>Technologies Used</h2>
+<ul>
+    <li>
+        <a href="https://getbootstrap.com/docs/3.3/">Bootstrap</a>
+        <ul>
+            <li>For template and to make website mobile responsive</li>
+        </ul>
+    </li>
+    <li>
+        <a href="https://dc-js.github.io/dc.js/">DC</a>
+        <ul>
+            <li>Used for rendering charts</li>
+        </ul>
+    </li>
+    <li>
+        <a href="http://square.github.io/crossfilter/">Crossfilter</a>
+        <ul>
+            <li>Used for filtering data charts</li>
+        </ul>
+    </li>
+    <li>
+        <a href="https://d3js.org/">D3</a>
+        <ul>
+            <li>Used for manipulating data</li>
+        </ul>
+    </li>
+    <li>
+        <a href="https://caolan.github.io/async/queue.js.html">Queue</a>
+        <ul>
+            <li>Used for data structuring</li>
+        </ul>
+    </li>
+    <li>
+        <a href="https://caolan.github.io/async/queue.js.html">JQuery</a>
+        <ul>
+            <li>Used for simplify DOM manipulation.</li>
+        </ul>
+    </li>
+</ul>
+<h2>Testing</h2>
 In this section, you need to convince the assessor that you have conducted enough testing to legitimately believe that the site works well. Essentially, in this part you will want to go over all of your user stories from the UX section and ensure that they all work as intended, with the project providing an easy and straightforward way for the users to achieve their goals.
 
 Whenever it is feasible, prefer to automate your tests, and if you've done so, provide a brief explanation of your approach, link to the test file(s) and explain how to run them.

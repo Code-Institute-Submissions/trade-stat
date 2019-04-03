@@ -11,6 +11,10 @@
     margin-bottom: 10px;
 }
 
+.reset {
+    float: right;
+}
+
 /*vertical scrolling*/
 .chart {
     overflow-x:scroll;
