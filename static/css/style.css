@@ -16,13 +16,9 @@
 }
 
 /*vertical scrolling*/
-.chart {
-    overflow-x:scroll;
-}
-
 #daily-volume {
     max-width: 750px;
-    overflow-x:scroll;
+    overflow-x: scroll;
 }
 /*popup tips*/
 .tips {
@@ -33,5 +29,11 @@
 .tips.active {
     visibility: visible; 
     position: relative;
+}
+
+@media screen and (max-width: 768px) {
+    .chart {
+    overflow-x: scroll;
+    }   
 }
 
