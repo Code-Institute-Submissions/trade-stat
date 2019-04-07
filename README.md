@@ -25,7 +25,8 @@
 <ul>
     <li>
         As user I want to have control over my trades and I need a tool that can
-        help me to analyze and save my time.
+        help me to analyze and save my time and i can achive that by using this 
+        website.
     </li>
 </ul>
 <h2>Features</h2>
@@ -67,13 +68,17 @@
     </li>
     <li>
         Daily volume (Timeline BarChart) - Here you can see volumes on timeline 
-        and to choose specific day or period for more details.
+        and to choose specific day or period for more details. It hasvertical 
+        scrolling function.
     </li>
 </ul>
 <h3>Features Left to Implement</h3>
 <ul>
     <li>
         Make some section shows total volume and percent of gain/loss from it.
+    </li>
+    <li>
+        Fix pie chart issue.
     </li>
 </ul>
 <h2>Technologies Used</h2>
@@ -116,7 +121,12 @@
     </li>
 </ul>
 <h2>Testing</h2>
-<p>All tests going from top and from left to right</p>
+<p>
+    All tests going from top and from left to right
+</p>
+<p>
+    During the test on different devices and browsers no problems has been found.
+</p>
 <h5>Guide</h5>
 <ul>
     <li>
@@ -180,13 +190,10 @@
         and that's ok. But Legend is in alphabetical order and it shows assets 
         that not on PieChart. If I click Others on pieChart and after I choose
         on another chart this assets I will get value=empty of this element on 
-        pie chart.
+        pie chart. At the moment i use SliceCap(12) to have all items on the 
+        legend.
     </li>
 </ul>
-<h3>Browsers and devices</h3>
-<p>
-    During the test on different devices and browsers no problems has been found.
-</p>
 <h2>Deployment</h2>
 <ol>
     <li>Log in to GitHub</li>

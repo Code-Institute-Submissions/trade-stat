@@ -15,11 +15,6 @@
     float: right;
 }
 
-/*vertical scrolling*/
-#daily-volume {
-    max-width: 750px;
-    overflow-x: scroll;
-}
 /*popup tips*/
 .tips {
     visibility: hidden;
@@ -31,9 +26,15 @@
     position: relative;
 }
 
+/*vertical scrolling*/
+#daily-volume {
+    max-width: 750px;
+    overflow-x: scroll;
+}
+
 @media screen and (max-width: 768px) {
     .chart {
-    overflow-x: scroll;
+        overflow-x: scroll;
     }   
 }
 

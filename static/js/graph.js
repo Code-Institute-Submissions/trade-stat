@@ -113,7 +113,6 @@ function show_trading_pairs(ndx) {
         }
     );
     
-    
     dc.pieChart("#trading-pair")
         .width(300)
         .height(200)
@@ -129,9 +128,10 @@ function show_trading_pairs(ndx) {
         .radius(80)
         .innerRadius(20)
         .transitionDuration(500)
-        .slicesCap(5)
+        .slicesCap(12)
         .legend(dc.legend());
 }
+
 
 //Bar chart with buy and sell type orders
 function show_buysell_orders(ndx) {
